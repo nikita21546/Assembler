@@ -82,6 +82,33 @@ try:
                     print("[ERROR] Illegal use of FLAGS register at line "+str(line_count)) 
                 else:
                   error = True
-                  print("[ERROR] Invalid Syntax at line "+str(line_count))    
+                  print("[ERROR] Invalid Syntax at line "+str(line_count))
+              elif opcode[instruction_list[0]][1] == "R$":  # type B            
+                  if len(instruction_list) == 3 and instruction_list[1] in registers.keys() and instruction_list[2][1:].isdigit():
+                    if 0 <= int(instruction_list[2][1:]) <= 255:                  
+                      if registers[instruction_list[1]] != "111":           
+                        binary_instruction = binary_instruction + registers[instruction_list[1]] + _8bit(int(instruction_list[2][1:]))
+                        out.append(binary_instruction)
+                      else:
+                        error = True
+                        print("[ERROR] Illegal use of FLAGS register at line " +str(line_count))  
+                    else:
+                      error = True
+                      print("[ERROR] Illegal immediate value at line " +str(line_count))                    
+                  else:  
+                    error =  True
+                    print("[ERROR] Invalid Syntax at line " +str(line_count))
+              elif opcode[instruction_list[0]][1] == "RR":  # type C
+                if len(instruction_list) == 3 and instruction_list[1] in registers.keys() and instruction_list[2] in registers.keys():
+                  if registers[instruction_list[1]] != "111" and registers[instruction_list[2]] != "111":
+                    binary_instruction = binary_instruction + "00000" + registers[instruction_list[1]] + registers[instruction_list[2]]
+                    out.append(binary_instruction)
+                  else:
+                    error = True
+                    print("[ERROR] Illegal use of FLAGS register at line "+str(line_count))   
+                else:
+                  error =  True
+                  print("[ERROR] Invalid Syntax at line "+str(line_count))
+
 except:
   print("[ERROR]Invalid Input File Format")
