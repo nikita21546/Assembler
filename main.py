@@ -39,5 +39,49 @@ try:
       x = bin(n)[2:]
       num = 8 - len(x)
       return "0" * num + x
+  def inst_to_bin(instruction_list):
+      global line_count
+      global error
+      binary_instruction = ""
+      # getting opcode
+      if instruction_list[0] in opcode.keys():
+          if instruction_list[0] != "mov":
+              binary_instruction = binary_instruction + opcode[instruction_list[0]][0]
+          else:
+              if instruction_list[2][0] == "$":
+                  binary_instruction += opcode[instruction_list[0]][0]
+              else:
+                  binary_instruction += opcode[instruction_list[0]][2]
+          if instruction_list[0] != "mov": # getting type and values accordingly
+              if opcode[instruction_list[0]][1] == "RRR":  # type A
+                if len(instruction_list) == 4 and instruction_list[1] in registers.keys() and instruction_list[2] in registers.keys() and instruction_list[3] in registers.keys():
+                  
+                  if registers[instruction_list[1]] != "111" and registers[instruction_list[2]] != "111" and registers[instruction_list[3]] != "111":
+                    binary_instruction = binary_instruction + "00" + registers[instruction_list[1]] + registers[instruction_list[2]] + registers[instruction_list[3]]
+                    out.append(binary_instruction)
+                  else:
+                    error = True
+                    print("[ERROR] Illegal use of FLAGS register at line "+str(line_count))
+                else: 
+                  error =  True
+                  print("[ERROR] Invalid Syntax at line "+str(line_count))
+              elif opcode[instruction_list[0]][1] == "Rm":  # type D
+                if len(instruction_list) == 3 and instruction_list[1] in registers.keys():  
+                  if registers[instruction_list[1]] != "111":
+                    if instruction_list[2] in var_dict.keys():
+                      binary_instruction = binary_instruction + registers[instruction_list[1]] + var_dict[instruction_list[2]]
+                      out.append(binary_instruction)
+                    elif instruction_list[2] in label_dict.keys():
+                      error = True
+                      print("[ERROR] Label Misused as Variable at line "+str(line_count))
+                    else:
+                      error = True
+                      print("[ERROR] Use of undefined variable at line "+str(line_count))
+                  else:
+                    error = True
+                    print("[ERROR] Illegal use of FLAGS register at line "+str(line_count)) 
+                else:
+                  error = True
+                  print("[ERROR] Invalid Syntax at line "+str(line_count))    
 except:
   print("[ERROR]Invalid Input File Format")
