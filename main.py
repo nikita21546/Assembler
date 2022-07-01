@@ -119,6 +119,39 @@ try:
                 else:
                   error = True
                   print("[ERROR] Label Undefined at line "+str(line_count))
+              elif opcode[instruction_list[0]][1] == "F":  # type F
+                    binary_instruction = binary_instruction + "0" * 11
+                    out.append(binary_instruction)
+            else:
+                if instruction_list[2][0] == "$":
+                    if len(instruction_list) == 3 and instruction_list[1] in registers.keys() and instruction_list[2][1:].isdigit():
+                        if 0 <= int(instruction_list[2][1:]) <= 255:
+                            if registers[instruction_list[1]] != "111":
+                                binary_instruction = binary_instruction + registers[instruction_list[1]] + _8bit(int(instruction_list[2][1:]))
+                                out.append(binary_instruction)
+                            else:
+                                error = True
+                                print("[ERROR] Illegal use of FLAGS register at line "+str(line_count))
+                        else:
+                            error = True
+                            print("[ERROR] Illegal Immediate Value at line "+str(line_count))
+                    else:
+                        error =  True
+                        print("[ERROR] Invalid Syntax at line "+str(line_count))
+                else:
+                    if instruction_list[1] in registers and instruction_list[2] in registers:
+                        if registers[instruction_list[1]] != "111":
+                            binary_instruction = binary_instruction + "00000" + registers[instruction_list[1]] + registers[instruction_list[2]]
+                            out.append(binary_instruction)
+                        else:
+                            error = True
+                            print("[ERROR] Illegal use of FLAGS register at line " +str(line_count))
+                    else:
+                        error =  True
+                        print("[ERROR] Invalid Syntax at line " +str(line_count))
+        else:
+            print("[ERROR] Invalid Operation Call at line " +str(line_count))
+            error=True
 
 except:
   print("[ERROR]Invalid Input File Format")
