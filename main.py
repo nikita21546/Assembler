@@ -109,6 +109,16 @@ try:
                 else:
                   error =  True
                   print("[ERROR] Invalid Syntax at line "+str(line_count))
+              elif opcode[instruction_list[0]][1] == "m":  # type E
+                if instruction_list[1] in label_dict:
+                  binary_instruction = binary_instruction + "000" + label_dict[instruction_list[1]]
+                  out.append(binary_instruction)
+                elif(instruction_list[1] in var_dict):
+                  error=True
+                  print("[ERROR] Variable Misused as Label at line "+str(line_count))
+                else:
+                  error = True
+                  print("[ERROR] Label Undefined at line "+str(line_count))
 
 except:
   print("[ERROR]Invalid Input File Format")
