@@ -152,6 +152,43 @@ try:
         else:
             print("[ERROR] Invalid Operation Call at line " +str(line_count))
             error=True
-  
+  line_count1=1
+    for i in l:  # Gives final list of instructions without empty lines
+        if i != '''\n''':
+            l2.append(i)
+            if (i.strip().split()[0] in opcode):  # Count of the total number of instructions excluding var and label declerations
+                instruction_count += 1
+            elif (i.strip().split()[0][-1] == ":"):  # identifying a label declaration
+                if (i.strip().split()[0][:-1] not in label_dict):
+                    if i.strip().split()[0][:-1] not in opcode.keys():
+                        label_dict[i.strip().split()[0][:-1]] = _8bit(instruction_count)
+                        instruction_count += 1
+                    elif(not error):
+                        error = True
+                        print("[ERROR] Invalid Label Name at line",line_count1)
+                elif(not error):
+                    error=True
+                    print("[ERROR] Label redeclared at line",line_count1)
+        line_count1+=1
+    hlt_chk=l2[-1].strip().split()
+    if(len(hlt_chk)==2):                                     #Checking that program ends with halt statement
+        if(hlt_chk[0][-1]==":" and hlt_chk[1]=="hlt"):
+            pass
+        else:
+            print("[ERROR] Halt statement not used at EOF") 
+            error=True
+    elif(len(hlt_chk)==1):
+        if(hlt_chk[0]!="hlt"):
+            print("[ERROR] Halt statement not used at EOF")
+            error=True
+        elif(hlt_chk[0]=="hlt"):
+            pass
+        else:
+            print("[ERROR] Halt statement not used at EOF")
+            error=True
+    else:
+        print("[ERROR] Halt statement not used at EOF")
+        error=True
+    pre_var_dec=True
 except:
   print("[ERROR]Invalid Input File Format")
