@@ -190,5 +190,43 @@ try:
         print("[ERROR] Halt statement not used at EOF")
         error=True
     pre_var_dec=True
+  line_count2=1
+    for i in l[:-1]:
+        if(i!='''\n'''):
+            if(error):
+                break
+            tempvar = i.strip().split()
+            if (tempvar[0] == "var" and pre_var_dec):  # identifying a variable declaration
+                varflag=True
+                lll=tempvar[1].split("_")
+                for i in lll:
+                    if(not i.isalnum()):
+                        varflag=False
+                if(not varflag):
+                    print("[ERROR] Invalid Variable Name at line",line_count2)
+                    error=True
+                    break
+                elif (tempvar[1] not in var_dict):
+                    var_dict[tempvar[1]] = _8bit(instruction_count)
+                    instruction_count += 1
+                else:
+                    print("[ERROR] Variable redeclared at line",line_count2)   #[ERROR] Redecleration of same variable
+                    error=True
+                    break
+            elif(tempvar[0] == "var" and not pre_var_dec):
+                print("[ERROR] Variable declared at line" ,line_count2,"instead of at the start")  #[ERROR] Variable not declared at the start 
+                error=True
+                break
+            else:
+                pre_var_dec=False
+            if(tempvar[0]=="hlt"):
+                print("[ERROR] Halt statement used before termination at line",line_count2) #[ERROR] Halt statement used before EOF
+                error=True
+                break
+            elif(tempvar[0][-1]==":" and len(tempvar)==2 and tempvar[1]=="hlt"):
+                error=True
+                print("[ERROR] Halt statement used before termination at line",line_count2) #[ERROR] Halt stament used before EOF as a label
+                break
+        line_count2+=1
 except:
   print("[ERROR]Invalid Input File Format")
