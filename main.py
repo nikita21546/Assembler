@@ -152,6 +152,6 @@ try:
         else:
             print("[ERROR] Invalid Operation Call at line " +str(line_count))
             error=True
-
+  
 except:
   print("[ERROR]Invalid Input File Format")
