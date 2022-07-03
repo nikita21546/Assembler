@@ -1,20 +1,13 @@
-#from sys import stdin
-import fileinput
+from sys import stdin
 
 try:
   l=[]
-  '''f1=stdin.read().split("\n")
+  f1=stdin.read().split("\n")
   for i in f1:
     if(i!=""):
       l.append(i+"\n")
     else:
-      l.append("\n")'''
-  with fileinput.input(files = 'test.txt') as f1:
-    for i in f1:
-      if(i!=""):
-        l.append(i+"\n")
-      else:
-        l.append("\n")
+      l.append("\n")
   xx=len(l)-1
   while(True):
     if(l[xx]=="\n"):
