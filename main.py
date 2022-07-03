@@ -122,7 +122,7 @@ try:
               elif opcode[instruction_list[0]][1] == "F":  # type F
                     binary_instruction = binary_instruction + "0" * 11
                     out.append(binary_instruction)
-            else:
+          else:
                 if instruction_list[2][0] == "$":
                     if len(instruction_list) == 3 and instruction_list[1] in registers.keys() and instruction_list[2][1:].isdigit():
                         if 0 <= int(instruction_list[2][1:]) <= 255:
@@ -149,11 +149,11 @@ try:
                     else:
                         error =  True
                         print("[ERROR] Invalid Syntax at line " +str(line_count))
-        else:
-            print("[ERROR] Invalid Operation Call at line " +str(line_count))
-            error=True
+      else:
+          print("[ERROR] Invalid Operation Call at line " +str(line_count))
+          error=True
   line_count1=1
-    for i in l:  # Gives final list of instructions without empty lines
+  for i in l:  # Gives final list of instructions without empty lines
         if i != '''\n''':
             l2.append(i)
             if (i.strip().split()[0] in opcode):  # Count of the total number of instructions excluding var and label declerations
@@ -170,14 +170,14 @@ try:
                     error=True
                     print("[ERROR] Label redeclared at line",line_count1)
         line_count1+=1
-    hlt_chk=l2[-1].strip().split()
-    if(len(hlt_chk)==2):                                     #Checking that program ends with halt statement
+  hlt_chk=l2[-1].strip().split()
+  if(len(hlt_chk)==2):                                     #Checking that program ends with halt statement
         if(hlt_chk[0][-1]==":" and hlt_chk[1]=="hlt"):
             pass
         else:
             print("[ERROR] Halt statement not used at EOF") 
             error=True
-    elif(len(hlt_chk)==1):
+  elif(len(hlt_chk)==1):
         if(hlt_chk[0]!="hlt"):
             print("[ERROR] Halt statement not used at EOF")
             error=True
@@ -186,12 +186,12 @@ try:
         else:
             print("[ERROR] Halt statement not used at EOF")
             error=True
-    else:
+  else:
         print("[ERROR] Halt statement not used at EOF")
         error=True
-    pre_var_dec=True
+  pre_var_dec=True
   line_count2=1
-    for i in l[:-1]:
+  for i in l[:-1]:
         if(i!='''\n'''):
             if(error):
                 break
