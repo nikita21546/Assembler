@@ -229,31 +229,31 @@ try:
                 break
         line_count2+=1
   for i in l:         #Line count handled
-        if(i!='''\n'''):
-            if(error):
-                break
-            instruction_list = i.strip().split()# getting opcode
-            if (instruction_list[0] != "var" and instruction_list[0][-1] != ":"):
-                inst_to_bin(instruction_list)
-            elif (instruction_list[0][-1] == ":"):
-                labelflag=True
-                ll2 = instruction_list[0][:-1].split("_")
-                for i in ll2:
-                    if(not i.isalnum()):
-                        labelflag=False
-                if(not labelflag):
-                    print("[ERROR] Invalid Label Name at line",line_count)
-                    error=True
-                    break
-                elif len(instruction_list)>=2:
-                    inst_to_bin((instruction_list[1:]))
-                else:
-                    print("[ERROR] Empty Label")
-                    error=True
-                    break
-            line_count=line_count+1
-        if(not error):
-            for i in out:
-                print(i)
+    if(i!='''\n'''):
+      if(error):
+        break
+      instruction_list = i.strip().split()# getting opcode
+      if (instruction_list[0] != "var" and instruction_list[0][-1] != ":"):
+        inst_to_bin(instruction_list)
+      elif (instruction_list[0][-1] == ":"):
+          labelflag=True
+          ll2 = instruction_list[0][:-1].split("_")
+          for i in ll2:
+            if(not i.isalnum()):
+              labelflag=False
+          if(not labelflag):
+            print("[ERROR] Invalid Label Name at line",line_count)
+            error=True
+            break
+          elif len(instruction_list)>=2:
+            inst_to_bin((instruction_list[1:]))
+          else:
+            print("[ERROR] Empty Label")
+            error=True
+            break
+    line_count=line_count+1
+  if(not error):
+    for i in out:
+      print(i)
 except:
   print("[ERROR]Invalid Input File Format")
